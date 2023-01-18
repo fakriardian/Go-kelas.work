@@ -1,0 +1,23 @@
+function need declar with package
+name of function only useable with string and _ for the first char
+
+return in func can be declar what var want to return
+ex:
+func greet(name string) <text string>{
+    text = "Hello" + name
+    return
+}
+
+if param type data is same no need declar each other, just one
+
+func can return more than 1 data.
+ex:
+func greet(name string) <text string, say string>{
+    text = "Hello " + name
+    say = "Sehat" + name + " ?"
+    return
+// or without variable
+    return "Hello " + name, "Sehat" + name + " ?"
+}
+
+func and varible with capitalize, can call outside main package

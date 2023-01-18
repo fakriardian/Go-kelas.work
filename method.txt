@@ -1,0 +1,19 @@
+can declar like alias
+
+type Centimeter float64
+// Centimeter will be tipe data if you print %T
+
+method can using validation
+
+func (c Centimeter) IstooLong() {
+    if c > 100 {
+        fmt.Printf("too long\n")
+    } else {
+        fmt.Print("Ok\n")
+    }
+}
+
+func main(){
+    myVar := Centimeter(100)
+    myVar.IstooLong()
+}

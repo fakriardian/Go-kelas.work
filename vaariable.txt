@@ -1,0 +1,44 @@
+need declar package function name
+ex :
+package main
+func main () {....}
+
+long declaration
+- var name tipe-data = value
+nb: can declar without value
+short declaration
+- name := value
+
+fmt.printf
+- %T : tipe data
+- %v : value
+
+ex: fmt.Printf("Type %T value %v, variable, variable)
+
+primitive type in Go: string, float (need specific float32/float64), boolean, int (include machine type. 32/64 like int32, int64)
+turunan type in Go: byte, rune, complex, error, interface
+byte max 255, can generate string to ascii
+ex:
+- byte := {}byte("hello")
+  fmt.Printf("Type %T value %v, byte, byte)
+
+rune specific with '' not "" ("" for string) and only specialcharacter like emoticon, return will be int32
+ex:
+- rune := ':)'
+
+complex for imaginer number
+ex:
+- complex := -7 + 3i
+
+error interface for error handling
+ex:
+- errorVar := errors.New("error detected")
+
+interface declar tipe data
+ex:
+- type methodList interface {
+    myFunc()
+    myFuncint(int)
+    }
+- var interfaceVar interface{} (can asgin any tipe data and rewirte tipe data)
+

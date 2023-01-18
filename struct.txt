@@ -1,0 +1,16 @@
+combine any tipe data
+
+type rectangle struct {
+    width float64
+    height float64
+}
+
+func main () {
+    myRectangle := rectangle{
+        width: 60,
+        height: 30
+    }
+
+    // if you wanna see value with filed using %+v
+    fmt.Printf("type: %T, value %+v\n", myRectangle, myRectangle)
+}

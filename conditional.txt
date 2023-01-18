@@ -1,0 +1,7 @@
+if, else if, else same like another language. no need () add condition
+
+switch, no need break for any case, for 2 conditon case "a", "b": do something.
+if you want do something next condition using fallthrough
+
+defer, used when all of logic execution done, defer will be exec.
+using defer like cleanup data, cleanup resource, reporting, logging maybe

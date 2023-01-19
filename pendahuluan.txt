@@ -16,5 +16,9 @@ projek:
 - database: psql. run with docker
 - membuat api service untuk restoran, yang bisa melihat menu, order, user login, user signup
 
+clean architecture:
+- membagi code menjadi beberapa layer (ex: entities, use-case, controller, delivery layer)
+- membagi responsbililty masing-masing layer
+
 go.sum:
 - version manager, maybe seperti package-lock

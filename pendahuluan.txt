@@ -20,5 +20,12 @@ clean architecture:
 - membagi code menjadi beberapa layer (ex: entities, use-case, controller, delivery layer)
 - membagi responsbililty masing-masing layer
 
+gorm:
+- untuk primary key, saat struct perlu di init propert `gorm:""primaryKey`
+- untuk foriegh key, tinggal samain aja key nya
+- Preload, buat get field jika berelasi isi field nya
+- reference id untuk unique key agar tidak bisa dihit berkali2 jika sama
+- json di model, untuk change key saat request data
+
 go.sum:
 - version manager, maybe seperti package-lock

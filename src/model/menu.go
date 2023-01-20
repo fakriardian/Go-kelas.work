@@ -7,6 +7,6 @@ import (
 type MenuItem struct {
 	Name      string
 	OrderCode string
-	Price     int
+	Price     int64
 	Type      constant.MenuType
 }

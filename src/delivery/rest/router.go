@@ -7,4 +7,6 @@ func LoadRoutes(e *echo.Echo, handler *handler) {
 
 	e.POST("/order", handler.Order)
 	e.GET("/order/:orderId", handler.GetOrderInfo)
+
+	e.POST("/user/register", handler.RegisterUser)
 }

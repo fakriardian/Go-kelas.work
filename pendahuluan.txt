@@ -27,5 +27,13 @@ gorm:
 - reference id untuk unique key agar tidak bisa dihit berkali2 jika sama
 - json di model, untuk change key saat request data
 
+middleware:
+- cors origin
+- hash password with argon2
+- argon saat menyimpan database dengan format
+- fmt.Sprintf mengisi data dengan format pada param
+- cipher untuk encrypt decrypt, untuk mastikan walaupun sudah di hash masih ada 1 key lagi untuk encrypt (double encrypt) 
+- noncesize berapa banyak byte yang di genarate untuk seal
+
 go.sum:
 - version manager, maybe seperti package-lock

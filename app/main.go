@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/fakriardian/Go-kelas.work/src/database"
+	config "github.com/fakriardian/Go-kelas.work/src/database"
 	"github.com/fakriardian/Go-kelas.work/src/delivery/rest"
 	menuRepository "github.com/fakriardian/Go-kelas.work/src/repository/menu"
 	orderRepository "github.com/fakriardian/Go-kelas.work/src/repository/order"
+	userRepository "github.com/fakriardian/Go-kelas.work/src/repository/user"
 	rUseCase "github.com/fakriardian/Go-kelas.work/src/use-case/resto"
 	"github.com/labstack/echo/v4"
 )
@@ -12,12 +13,16 @@ import (
 func main() {
 	e := echo.New()
 
-	database := database.GetDb(database.DbAddress)
+	database := config.GetDb(config.DbAddress)
 
 	menuRepo := menuRepository.GetRepository(database)
 	orderRepo := orderRepository.GetRepository(database)
+	userRepo, err := userRepository.GetRepository(database, config.Secret, config.Time, config.Memory, config.Threads, config.KeyLen)
+	if err != nil {
+		panic(err)
+	}
 
-	restoUseCase := rUseCase.GetUseCase(menuRepo, orderRepo)
+	restoUseCase := rUseCase.GetUseCase(menuRepo, orderRepo, userRepo)
 
 	handler := rest.NewHandler(restoUseCase)
 

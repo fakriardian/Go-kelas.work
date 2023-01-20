@@ -1,22 +1,27 @@
 package resto
 
 import (
+	"errors"
+
 	"github.com/fakriardian/Go-kelas.work/src/model"
 	"github.com/fakriardian/Go-kelas.work/src/model/constant"
 	"github.com/fakriardian/Go-kelas.work/src/repository/menu"
 	"github.com/fakriardian/Go-kelas.work/src/repository/order"
+	"github.com/fakriardian/Go-kelas.work/src/repository/user"
 	"github.com/google/uuid"
 )
 
 type restoUseCase struct {
 	menuRepo  menu.Repository
 	orderRepo order.Reposiroty
+	userRepo  user.Repository
 }
 
-func GetUseCase(menuRepo menu.Repository, orderRepo order.Reposiroty) Usecase {
+func GetUseCase(menuRepo menu.Repository, orderRepo order.Reposiroty, userRepo user.Repository) Usecase {
 	return &restoUseCase{
 		menuRepo:  menuRepo,
 		orderRepo: orderRepo,
+		userRepo:  userRepo,
 	}
 }
 
@@ -69,4 +74,32 @@ func (r *restoUseCase) GetOrderInfo(request constant.GetOrderInfoRequest) (model
 	}
 
 	return orderData, nil
+}
+
+func (r *restoUseCase) RegisterUser(request constant.ResigesterUserRequest) (model.User, error) {
+	userRegistered, err := r.userRepo.CheckRegister(request.UserName)
+	if err != nil {
+		return model.User{}, err
+	}
+
+	if userRegistered {
+		return model.User{}, errors.New("already registered!")
+	}
+
+	passwordHash, err := r.userRepo.GenerateHashPassword(request.Password)
+	if err != nil {
+		return model.User{}, err
+	}
+
+	userData, err := r.userRepo.RegisterUser(model.User{
+		ID:       uuid.NewString(),
+		UserName: request.UserName,
+		Password: passwordHash,
+	})
+
+	if err != nil {
+		return model.User{}, err
+	}
+
+	return userData, nil
 }

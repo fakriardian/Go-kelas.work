@@ -5,3 +5,7 @@ type User struct {
 	UserName string `gorm:"unique" json:"username"`
 	Password string `json:"-"`
 }
+
+type UserSession struct {
+	JWTToken string `json:"jwt_token"`
+}

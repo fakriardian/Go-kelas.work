@@ -1,6 +1,9 @@
 package main
 
 import (
+	"crypto/rand"
+	"crypto/rsa"
+
 	config "github.com/fakriardian/Go-kelas.work/src/database"
 	"github.com/fakriardian/Go-kelas.work/src/delivery/rest"
 	menuRepository "github.com/fakriardian/Go-kelas.work/src/repository/menu"
@@ -14,10 +17,16 @@ func main() {
 	e := echo.New()
 
 	database := config.GetDb(config.DbAddress)
+	signKey, err := rsa.GenerateKey(rand.Reader, 4096)
+	if err != nil {
+		panic(err)
+	}
 
 	menuRepo := menuRepository.GetRepository(database)
 	orderRepo := orderRepository.GetRepository(database)
-	userRepo, err := userRepository.GetRepository(database, config.Secret, config.Time, config.Memory, config.Threads, config.KeyLen)
+	userRepo, err := userRepository.GetRepository(
+		database, config.Secret, config.Time, config.Memory, config.Threads, config.KeyLen, signKey, config.Exp,
+	)
 	if err != nil {
 		panic(err)
 	}

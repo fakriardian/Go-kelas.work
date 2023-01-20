@@ -1,5 +1,7 @@
 package database
 
+import "time"
+
 const (
 	DbAddress = "host=localhost port=5432 user=postgres password=password dbname=go_resto_app sslmode=disable"
 	Secret    = "AES256Key-32Characters1092384756"
@@ -7,4 +9,5 @@ const (
 	Memory    = 64 * 1024
 	Threads   = 4
 	KeyLen    = 32
+	Exp       = 60 * time.Second
 )

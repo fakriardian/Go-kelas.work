@@ -36,3 +36,32 @@ func (h *handler) RegisterUser(c echo.Context) error {
 		"status": http.StatusOK,
 	})
 }
+
+func (h *handler) Login(c echo.Context) error {
+	var request constant.LoginRequest
+
+	err := json.NewDecoder(c.Request().Body).Decode(&request)
+	if err != nil {
+		fmt.Printf("got error %s\n", err.Error())
+
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"error":  err.Error(),
+			"status": http.StatusInternalServerError,
+		})
+	}
+
+	sessionData, err := h.restoUseCase.Login(request)
+	if err != nil {
+		fmt.Printf("got error %s\n", err.Error())
+
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"error":  err.Error(),
+			"status": http.StatusInternalServerError,
+		})
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"data":   sessionData,
+		"status": http.StatusOK,
+	})
+}

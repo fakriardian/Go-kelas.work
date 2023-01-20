@@ -10,4 +10,5 @@ type Usecase interface {
 	Order(request constant.OrderMenuRequest) (model.Order, error)
 	GetOrderInfo(request constant.GetOrderInfoRequest) (model.Order, error)
 	RegisterUser(request constant.ResigesterUserRequest) (model.User, error)
+	Login(request constant.LoginRequest) (model.UserSession, error)
 }

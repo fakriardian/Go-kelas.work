@@ -26,12 +26,15 @@ func (r *restoUseCase) GetMenuList(menuType string) ([]model.MenuItem, error) {
 
 func (r *restoUseCase) Order(request constant.OrderMenuRequest) (model.Order, error) {
 	productOrderData := make([]model.ProductOrder, len(request.OrderProducts))
+	var amounTotal int64 = 0
 
 	for i, orderProduct := range request.OrderProducts {
 		menuData, err := r.menuRepo.GetMenu(orderProduct.OrderCode)
 		if err != nil {
 			return model.Order{}, err
 		}
+
+		amounTotal += (menuData.Price * int64(orderProduct.Quantity))
 
 		productOrderData[i] = model.ProductOrder{
 			ID:         uuid.New().String(),
@@ -45,6 +48,7 @@ func (r *restoUseCase) Order(request constant.OrderMenuRequest) (model.Order, er
 	orderData := model.Order{
 		ID:            uuid.NewString(),
 		Status:        constant.OrderStatusProcessed,
+		TotalAmount:   amounTotal,
 		ProductOrders: productOrderData,
 		ReferenceID:   request.ReferenceID,
 	}

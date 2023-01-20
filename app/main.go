@@ -21,6 +21,7 @@ func main() {
 
 	handler := rest.NewHandler(restoUseCase)
 
+	rest.LoadMiddleware(e)
 	rest.LoadRoutes(e, handler)
 
 	e.Logger.Fatal(e.Start(":5000"))

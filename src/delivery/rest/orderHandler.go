@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/fakriardian/Go-kelas.work/src/model/constant"
+	"github.com/fakriardian/Go-kelas.work/src/utils"
 	"github.com/labstack/echo/v4"
 )
 
@@ -20,6 +21,9 @@ func (h *handler) Order(c echo.Context) error {
 			"status": http.StatusInternalServerError,
 		})
 	}
+
+	userID := c.Request().Context().Value(utils.AuthContextKey).(string)
+	request.UserID = userID
 
 	orderData, err := h.restoUseCase.Order(request)
 	if err != nil {
@@ -40,8 +44,12 @@ func (h *handler) Order(c echo.Context) error {
 
 func (h *handler) GetOrderInfo(c echo.Context) error {
 	orderId := c.Param("orderID")
+	userID := c.Request().Context().Value(utils.AuthContextKey).(string)
 
-	orderData, err := h.restoUseCase.GetOrderInfo(constant.GetOrderInfoRequest{OrderID: orderId})
+	orderData, err := h.restoUseCase.GetOrderInfo(constant.GetOrderInfoRequest{
+		UserID:  userID,
+		OrderID: orderId,
+	})
 
 	if err != nil {
 		fmt.Printf("got error %s\n", err.Error())

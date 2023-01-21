@@ -6,6 +6,7 @@ import (
 
 type Order struct {
 	ID            string               `gorm:"primaryKey" json:"id"`
+	UserID        string               `json:"user_id"`
 	Status        constant.OrderStatus `json:"status"`
 	TotalAmount   int64                `json:"total_amount"`
 	ProductOrders []ProductOrder       `json:"product_orders"`

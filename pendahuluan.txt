@@ -37,3 +37,6 @@ middleware:
 
 go.sum:
 - version manager, maybe seperti package-lock
+
+logrus:
+- for logger

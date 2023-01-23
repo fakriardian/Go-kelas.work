@@ -6,6 +6,7 @@ import (
 
 	config "github.com/fakriardian/Go-kelas.work/src/database"
 	"github.com/fakriardian/Go-kelas.work/src/delivery/rest"
+	"github.com/fakriardian/Go-kelas.work/src/logger"
 	menuRepository "github.com/fakriardian/Go-kelas.work/src/repository/menu"
 	orderRepository "github.com/fakriardian/Go-kelas.work/src/repository/order"
 	userRepository "github.com/fakriardian/Go-kelas.work/src/repository/user"
@@ -14,6 +15,7 @@ import (
 )
 
 func main() {
+	logger.Init()
 	e := echo.New()
 
 	database := config.GetDb(config.DbAddress)

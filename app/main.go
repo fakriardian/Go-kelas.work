@@ -10,12 +10,14 @@ import (
 	menuRepository "github.com/fakriardian/Go-kelas.work/src/repository/menu"
 	orderRepository "github.com/fakriardian/Go-kelas.work/src/repository/order"
 	userRepository "github.com/fakriardian/Go-kelas.work/src/repository/user"
+	"github.com/fakriardian/Go-kelas.work/src/tracing"
 	rUseCase "github.com/fakriardian/Go-kelas.work/src/use-case/resto"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
 	logger.Init()
+	tracing.Init("http://localhost:14268/api/traces")
 	e := echo.New()
 
 	database := config.GetDb(config.DbAddress)

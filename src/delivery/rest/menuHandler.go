@@ -3,14 +3,18 @@ package rest
 import (
 	"net/http"
 
+	"github.com/fakriardian/Go-kelas.work/src/tracing"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 )
 
 func (h *handler) GetMenuList(c echo.Context) error {
+	ctx, span := tracing.CreateSpan(c.Request().Context(), "GetMenuList")
+	defer span.End()
+
 	menuType := c.FormValue("menu_type")
 
-	menuData, err := h.restoUseCase.GetMenuList(menuType)
+	menuData, err := h.restoUseCase.GetMenuList(ctx, menuType)
 	if err != nil {
 		logrus.WithFields(logrus.Fields{
 			"err": err,
@@ -22,6 +26,10 @@ func (h *handler) GetMenuList(c echo.Context) error {
 			"status": http.StatusInternalServerError,
 		})
 	}
+
+	logrus.WithFields(logrus.Fields{
+		"status": http.StatusOK,
+	}).Error("[delivery][rest][handler][GetMenuList] success Get menu list")
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"data":   menuData,

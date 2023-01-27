@@ -1,8 +1,12 @@
 package order
 
-import "github.com/fakriardian/Go-kelas.work/src/model"
+import (
+	"context"
+
+	"github.com/fakriardian/Go-kelas.work/src/model"
+)
 
 type Reposiroty interface {
-	CreateOrder(order model.Order) (model.Order, error)
-	GetOrderInfo(orderID string) (model.Order, error)
+	CreateOrder(ctx context.Context, order model.Order) (model.Order, error)
+	GetOrderInfo(ctx context.Context, orderID string) (model.Order, error)
 }

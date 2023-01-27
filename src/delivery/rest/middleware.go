@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/fakriardian/Go-kelas.work/src/tracing"
 	"github.com/fakriardian/Go-kelas.work/src/use-case/resto"
 	"github.com/fakriardian/Go-kelas.work/src/utils"
 	"github.com/labstack/echo/v4"
@@ -26,6 +27,9 @@ type authMiddleware struct {
 
 func (am *authMiddleware) CheckAuth(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
+		ctx, span := tracing.CreateSpan(c.Request().Context(), "CheckAuth")
+		defer span.End()
+
 		sessionData, err := utils.GetSessionData(c.Request())
 		if err != nil {
 			return &echo.HTTPError{
@@ -35,7 +39,7 @@ func (am *authMiddleware) CheckAuth(next echo.HandlerFunc) echo.HandlerFunc {
 			}
 		}
 
-		userID, err := am.restoUseCase.CheckSession(sessionData)
+		userID, err := am.restoUseCase.CheckSession(ctx, sessionData)
 		if err != nil {
 			return &echo.HTTPError{
 				Code:     http.StatusUnauthorized,

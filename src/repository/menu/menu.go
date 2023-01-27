@@ -1,8 +1,11 @@
 package menu
 
 import (
+	"context"
+
 	"github.com/fakriardian/Go-kelas.work/src/model"
 	"github.com/fakriardian/Go-kelas.work/src/model/constant"
+	"github.com/fakriardian/Go-kelas.work/src/tracing"
 	"gorm.io/gorm"
 )
 
@@ -16,10 +19,13 @@ func GetRepository(db *gorm.DB) Repository {
 	}
 }
 
-func (m *menuRepo) GetMenuList(menuType string) ([]model.MenuItem, error) {
+func (m *menuRepo) GetMenuList(ctx context.Context, menuType string) ([]model.MenuItem, error) {
+	ctx, span := tracing.CreateSpan(ctx, "GetMenuList")
+	defer span.End()
+
 	var menuData []model.MenuItem
 
-	if err := m.db.Where(model.MenuItem{Type: constant.MenuType(menuType)}).Find(&menuData).Error; err != nil {
+	if err := m.db.WithContext(ctx).Where(model.MenuItem{Type: constant.MenuType(menuType)}).Find(&menuData).Error; err != nil {
 		return nil, err
 	}
 

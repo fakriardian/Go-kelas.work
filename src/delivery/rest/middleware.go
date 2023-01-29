@@ -9,6 +9,7 @@ import (
 	"github.com/fakriardian/Go-kelas.work/src/utils"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/labstack/gommon/log"
 )
 
 func LoadMiddleware(e *echo.Echo) {
@@ -18,6 +19,10 @@ func LoadMiddleware(e *echo.Echo) {
 
 		// for all
 		AllowOrigins: []string{"*"},
+	}))
+
+	e.Use(middleware.RecoverWithConfig(middleware.RecoverConfig{
+		LogLevel: log.ERROR,
 	}))
 }
 

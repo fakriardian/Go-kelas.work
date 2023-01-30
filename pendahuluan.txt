@@ -60,3 +60,20 @@ jaegertracing/all-in-one:1.6
 
 hadle panic:
 - dengan recover, melalu defer func
+
+unit test:
+- mock repository for testing (go mock) `go install github.com/golang/mock/mockgen@v1.6.0` `github.com/golang/mock/gomock`
+- cara manual mocks:
+  mockgen -package=mocks -mock_names=Usacase=MockRestoUsecase -destination=./src/mocks/restoUseCaseMock.go -source=./src/
+  use-case/resto/useCase.go
+- cara generate mocks with inline code comment:
+//go:generate mockgen -package=mocks -mock_names=Repository=MockMenuRepository -destination=../../mocks/menuRepositoryMock.go -source=repository.go
+on terminal `go generate ./...` to all go generate in inline code comment
+- untuk membuat unit test, masuk ke function usecae nya, click kanan -> go generate unit test for function
+- file yang memiliki _test.go dan func Test_ adalah file dan func unit test
+
+- with database mock:
+go get github.com/DATA-DOG/go-sqlmock
+
+-run test:
+- go test ./...

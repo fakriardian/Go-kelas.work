@@ -102,7 +102,7 @@ func (r *restoUseCase) RegisterUser(ctx context.Context, request constant.Resige
 	}
 
 	if userRegistered {
-		return model.User{}, errors.New("already registered!")
+		return model.User{}, errors.New("already registered")
 	}
 
 	passwordHash, err := r.userRepo.GenerateHashPassword(ctx, request.Password)

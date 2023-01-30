@@ -18,7 +18,7 @@ import (
 func Test_restoUseCase_GetMenuList(t *testing.T) {
 	type fields struct {
 		menuRepo  menu.Repository
-		orderRepo order.Reposiroty
+		orderRepo order.Repository
 		userRepo  user.Repository
 	}
 

@@ -15,11 +15,11 @@ import (
 
 type restoUseCase struct {
 	menuRepo  menu.Repository
-	orderRepo order.Reposiroty
+	orderRepo order.Repository
 	userRepo  user.Repository
 }
 
-func GetUseCase(menuRepo menu.Repository, orderRepo order.Reposiroty, userRepo user.Repository) Usecase {
+func GetUseCase(menuRepo menu.Repository, orderRepo order.Repository, userRepo user.Repository) Usecase {
 	return &restoUseCase{
 		menuRepo:  menuRepo,
 		orderRepo: orderRepo,

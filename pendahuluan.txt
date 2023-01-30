@@ -76,4 +76,26 @@ on terminal `go generate ./...` to all go generate in inline code comment
 go get github.com/DATA-DOG/go-sqlmock
 
 -run test:
-- go test ./...
+go test ./...
+
+BDD (Behaviour Driven Development):
+- sebuah framework memfokuskan testing pada sebuah prilaku / Behaviour yang dijelaskan dalam bahasa manusia
+- BDD memperdekat antara tim engineer, tim bisnis dan pm
+- install ginkgo
+go get github.com/onsi/ginkgo/v2/ginkgo
+go install github.com/onsi/ginkgo/v2/ginkgo
+go get github.com/onsi/gomega/... => isi untuk support ginkgo
+
+run ginkgo:
+- cd filepath
+- ginkgo bootstrap
+- create spec for test suite case. (ginkgo generate ginkgo_resto)
+
+beberapa cara melakukan describe di ginkgo:
+- describe
+- when
+- it
+
+TDD vs BDD:
+- tdd fokus ke fungsionalitas komponen
+- bdd sinergi keseluruhan fungsi dari komponen yang ada

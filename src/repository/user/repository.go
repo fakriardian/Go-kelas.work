@@ -6,6 +6,7 @@ import (
 	"github.com/fakriardian/Go-kelas.work/src/model"
 )
 
+//go:generate mockgen -package=mocks -mock_names=Repository=MockUserRepository -destination=../../mocks/userRepositoryMock.go -source=repository.go
 type Repository interface {
 	RegisterUser(ctx context.Context, userData model.User) (model.User, error)
 	CheckRegister(ctx context.Context, username string) (bool, error)

@@ -13,7 +13,7 @@ type orderRepo struct {
 	db *gorm.DB
 }
 
-func GetRepository(db *gorm.DB) Reposiroty {
+func GetRepository(db *gorm.DB) Repository {
 	return &orderRepo{
 		db: db,
 	}

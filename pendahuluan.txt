@@ -113,3 +113,7 @@ mengakses resource secara bersamaan dengan aman:
 - mutex:
  - goroutine akan menunggu sampai resource bisa dipakai, 
     lalu akan mengkunci dan melepas setelah selesai agar bisa digunakan varibale lain
+
+channel:
+- adalah cara goroutine yang berbeda2 untuk berkomunikasi satu dan lainnya
+- channel dapat digunakan untuk menunggu sesuatu sampai selesai

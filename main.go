@@ -2,63 +2,67 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
-	"sync"
+	// "math/rand"
+	// "sync"
 	"time"
 )
 
-func withSleep(id int) {
-	for i := 0; i < 10; i++ {
-		fmt.Printf("[%d] counting %d\n", id, i)
+func greet(c chan string) {
+	name := <-c // get from channel
+	fmt.Println("Hello ", name)
+}
+
+func greetUntilQuit(c chan string, quit chan int) {
+	for {
+		// select case only for channel
+		select {
+		case name := <-c:
+			fmt.Println("Hello ", name)
+		case <-quit:
+			fmt.Println("quitting greeting")
+			return
+		}
 	}
 }
 
-func testPrintWaitGroup(id int) {
-	for i := 0; i < 10; i++ {
-		fmt.Printf("[%d] counting %d\n", id, i)
-		amt := time.Duration(rand.Intn(250))
-		time.Sleep(amt * time.Millisecond)
+func nameReciever(c chan string, quit chan int) {
+	for {
+		select {
+		case name, more := <-c:
+			if more {
+				fmt.Println("Hello ", name)
+			} else {
+				fmt.Println("recieved all data ")
+				quit <- 0
+			}
+		}
 	}
+}
+
+func nameProducer(c chan string) {
+	c <- "World" // input to channel
+	c <- "Banana"
+	c <- "Apel"
 }
 
 func main() {
-	//	goroutine with time sleep
-	// go withSleep(0)
+	c := make(chan string)
+	quit := make(chan int)
 
-	// time.Sleep(1 * time.Second)
-	//	goroutine with time sleep
+	// go greet(c)
+	// go greetUntilQuit(c, quit)
 
-	// goroutine with waitgroup
-	// var wg sync.WaitGroup
-	// for i := 0; i < 3; i++ {
-	// 	wg.Add(1)
+	// c <- "World" // input to channel
+	// c <- "Banana"
+	// c <- "Apel"
 
-	// 	go func(i int) {
-	// 		defer wg.Done()
-	// 		testPrintWaitGroup(i)
-	// 	}(i)
-	// }
-	// wg.Wait()
-	// goroutine with waitgroup
+	// quit <- 0 // quit secara grasful
 
-	// goroutine share resources include mutex
-	var sharedResource string
-	var wg sync.WaitGroup
-	var mutex sync.Mutex
+	go nameReciever(c, quit)
+	nameProducer(c)
 
-	for i := 0; i < 10; i++ {
-		wg.Add(1)
-		go func(id int) {
-			defer wg.Done()
-			mutex.Lock()
-			sharedResource = fmt.Sprintf("key owned by: [%d]", id)
-			fmt.Println("Previous value: ", sharedResource)
-			fmt.Println("Current value: ", sharedResource)
-			mutex.Unlock()
-		}(i)
-	}
-	wg.Wait()
+	close(c)
+	<-quit
 
-	fmt.Println("final resource: ", sharedResource)
-	// goroutine share resources
+	time.Sleep(1 * time.Second)
 }

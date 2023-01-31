@@ -117,3 +117,7 @@ mengakses resource secara bersamaan dengan aman:
 channel:
 - adalah cara goroutine yang berbeda2 untuk berkomunikasi satu dan lainnya
 - channel dapat digunakan untuk menunggu sesuatu sampai selesai
+
+generics:
+- dapat membuat fungsi yang dapat berinteraksi lebih dari 1 tipe
+- dapat menggabungkan beberapa fungsi menjadi satu fungsi saja

@@ -4,65 +4,76 @@ import (
 	"fmt"
 	// "math/rand"
 	// "sync"
-	"time"
+	// "time"
 )
 
-func greet(c chan string) {
-	name := <-c // get from channel
-	fmt.Println("Hello ", name)
-}
+func sumInt(m map[string]int64) int64 {
+	var total int64
 
-func greetUntilQuit(c chan string, quit chan int) {
-	for {
-		// select case only for channel
-		select {
-		case name := <-c:
-			fmt.Println("Hello ", name)
-		case <-quit:
-			fmt.Println("quitting greeting")
-			return
-		}
+	for _, v := range m {
+		total += v
 	}
+
+	return total
 }
 
-func nameReciever(c chan string, quit chan int) {
-	for {
-		select {
-		case name, more := <-c:
-			if more {
-				fmt.Println("Hello ", name)
-			} else {
-				fmt.Println("recieved all data ")
-				quit <- 0
-			}
-		}
+func sumFloat(m map[string]float64) float64 {
+	var total float64
+
+	for _, v := range m {
+		total += v
 	}
+
+	return total
 }
 
-func nameProducer(c chan string) {
-	c <- "World" // input to channel
-	c <- "Banana"
-	c <- "Apel"
+func sumIntorFloat[K comparable, V int64 | float64](m map[K]V) V {
+	var total V
+
+	for _, v := range m {
+		total += v
+	}
+
+	return total
+}
+
+type Number interface {
+	int | int32 | int64 | float32 | float64
+}
+
+func sumNumber[K comparable, V Number](m map[K]V) V {
+	var total V
+
+	for _, v := range m {
+		total += v
+	}
+
+	return total
 }
 
 func main() {
-	c := make(chan string)
-	quit := make(chan int)
+	ints := map[string]int64{
+		"first":  34,
+		"second": 12,
+	}
 
-	// go greet(c)
-	// go greetUntilQuit(c, quit)
+	floats := map[string]float64{
+		"first":  35.98,
+		"second": 32.3,
+	}
 
-	// c <- "World" // input to channel
-	// c <- "Banana"
-	// c <- "Apel"
+	fmt.Printf("non generics: %v and %v\n",
+		sumInt(ints),
+		sumFloat(floats),
+	)
 
-	// quit <- 0 // quit secara grasful
+	fmt.Printf("generics: %v and %v\n",
+		sumIntorFloat(ints),
+		sumIntorFloat(floats),
+	)
 
-	go nameReciever(c, quit)
-	nameProducer(c)
-
-	close(c)
-	<-quit
-
-	time.Sleep(1 * time.Second)
+	fmt.Printf("generics with interface: %v and %v\n",
+		sumNumber(ints),
+		sumNumber(floats),
+	)
 }

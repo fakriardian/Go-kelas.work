@@ -121,3 +121,4 @@ channel:
 generics:
 - dapat membuat fungsi yang dapat berinteraksi lebih dari 1 tipe
 - dapat menggabungkan beberapa fungsi menjadi satu fungsi saja
+- dipanggil dengan cara memberikan tipe data sebelum mengisi fungsi

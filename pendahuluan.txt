@@ -122,3 +122,12 @@ generics:
 - dapat membuat fungsi yang dapat berinteraksi lebih dari 1 tipe
 - dapat menggabungkan beberapa fungsi menjadi satu fungsi saja
 - dipanggil dengan cara memberikan tipe data sebelum mengisi fungsi
+
+caching:
+- untuk menyimpan data yang sering kita akses
+- benefit, mengurangi resource yang diguankan baik di database, services lain, ataupun service yang mahal
+- dapat menghemat waktu dan performa
+- caching tempat penyimpanan data yg berfokus pada performa
+- tempat penyimpanan sementara
+- sistem caching menggunakan ram
+- jika data berubah set expirate time, atau hapus secara manual setelah update data

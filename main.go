@@ -1,79 +1,73 @@
 package main
 
+// konsep caching
+
 import (
 	"fmt"
 	// "math/rand"
 	// "sync"
-	// "time"
+	"time"
 )
 
-func sumInt(m map[string]int64) int64 {
-	var total int64
-
-	for _, v := range m {
-		total += v
-	}
-
-	return total
+type myService struct {
+	cacher *cache
 }
 
-func sumFloat(m map[string]float64) float64 {
-	var total float64
-
-	for _, v := range m {
-		total += v
-	}
-
-	return total
+type cache struct {
+	storage map[string]string
 }
 
-func sumIntorFloat[K comparable, V int64 | float64](m map[K]V) V {
-	var total V
-
-	for _, v := range m {
-		total += v
-	}
-
-	return total
+// layer repo
+func (ms *myService) expensiveFunction(key string) string {
+	time.Sleep(5 * time.Second)
+	return fmt.Sprint("data-", key, ": Success")
 }
 
-type Number interface {
-	int | int32 | int64 | float32 | float64
-}
-
-func sumNumber[K comparable, V Number](m map[K]V) V {
-	var total V
-
-	for _, v := range m {
-		total += v
+// layer usecase
+func (ms *myService) getData(key string) string {
+	if ms.cacher != nil {
+		if cacheData := ms.cacher.get(key); cacheData != "" {
+			return cacheData
+		}
 	}
 
-	return total
+	result := ms.expensiveFunction(key)
+	ms.cacher.set(key, result)
+
+	return result
+}
+
+func (c *cache) set(key, value string) {
+	c.storage[key] = value
+}
+
+func (c *cache) get(key string) string {
+	v, ok := c.storage[key]
+	if !ok {
+		return ""
+	}
+	return v
 }
 
 func main() {
-	ints := map[string]int64{
-		"first":  34,
-		"second": 12,
+	cacher := &cache{
+		storage: map[string]string{},
+	}
+	service := &myService{
+		cacher: cacher,
 	}
 
-	floats := map[string]float64{
-		"first":  35.98,
-		"second": 32.3,
-	}
+	key := "myData1"
 
-	fmt.Printf("non generics: %v and %v\n",
-		sumInt(ints),
-		sumFloat(floats),
-	)
+	start := time.Now()
+	fmt.Println("Calling expensive function")
+	result := service.getData(key)
+	fmt.Println("expensive function called, duration: ", time.Since(start))
+	fmt.Println(result)
 
-	fmt.Printf("generics: %v and %v\n",
-		sumIntorFloat(ints),
-		sumIntorFloat(floats),
-	)
-
-	fmt.Printf("generics with interface: %v and %v\n",
-		sumNumber(ints),
-		sumNumber(floats),
-	)
+	start = time.Now()
+	fmt.Println("Calling expensive function")
+	result = service.getData(key)
+	fmt.Println("cache expensive function called, duration: ", time.Since(start))
+	fmt.Println(result)
 }
